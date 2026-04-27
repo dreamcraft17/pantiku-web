@@ -11,9 +11,9 @@ export const metadata: Metadata = {
   title: "Pantiku",
   description: "Platform pemberdayaan panti asuhan",
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
-    apple: "/logo/logo.png"
+    icon: "/Logo/logo.png",
+    shortcut: "/Logo/logo.png",
+    apple: "/Logo/logo.png",
   },
   openGraph: {
     title: "Pantiku",
