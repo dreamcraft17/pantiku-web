@@ -17,7 +17,7 @@ export default function OrphanagesPage() {
       {query.data && query.data.length === 0 ? (
         <EmptyState title="Belum ada panti terdaftar" description="Profil panti akan tersedia segera." />
       ) : null}
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3">
         {query.data?.map((item) => <OrphanageCard key={item.id} orphanage={item} />)}
       </div>
     </section>

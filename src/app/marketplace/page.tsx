@@ -74,7 +74,7 @@ export default function MarketplacePage() {
           <PrimaryButton href="/register" label="Saya Pengelola Panti" variant="outline" />
         </div>
       ) : null}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {filteredProducts.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}

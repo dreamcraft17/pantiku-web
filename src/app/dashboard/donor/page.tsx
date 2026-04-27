@@ -1,40 +1,47 @@
 "use client";
 
 import { DashboardCard } from "@/components/dashboard/DashboardCard";
-import { DashboardHeader } from "@/components/dashboard/DashboardHeader";
+import { DashboardHero } from "@/components/dashboard/DashboardHero";
+import { EmptyDashboardState } from "@/components/dashboard/EmptyDashboardState";
 import { ProtectedDashboard } from "@/components/dashboard/ProtectedDashboard";
+import { PrimaryButton } from "@/components/common/primary-button";
 
 export default function DonorDashboardPage() {
   return (
     <ProtectedDashboard allowedRoles={["DONOR"]}>
-      <section className="mx-auto w-full max-w-7xl py-8">
-        <DashboardHeader
-          title="Selamat datang kembali"
-          subtitle="Lanjutkan dukunganmu untuk membangun panti yang lebih mandiri."
+      <section className="space-y-6 py-10">
+        <DashboardHero
+          title="Selamat Datang di Pantiku"
+          subtitle="Dukung campaign produktif, beli produk karya panti, dan lihat dampak dari kontribusimu."
+          primaryCta={<PrimaryButton href="/campaigns" label="Jelajahi Campaign" />}
+          secondaryCta={<PrimaryButton href="/marketplace" label="Lihat Produk Karya Panti" variant="outline" />}
         />
-        <div className="grid gap-4 md:grid-cols-3">
+
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
           <DashboardCard
-            title="Campaign Produktif"
-            description="Lihat campaign yang sedang berjalan dan dukung program yang relevan."
-            ctaLabel="Jelajahi Campaign"
+            title="Dukung Campaign Produktif"
+            description="Bantu panti mendapatkan alat, pelatihan, dan modal produktif."
+            ctaLabel="Lihat Campaign"
             href="/campaigns"
           />
           <DashboardCard
-            title="Produk Karya Panti"
-            description="Temukan produk karya panti dan bantu keberlanjutan ekonomi panti."
+            title="Beli Produk Karya Panti"
+            description="Dukung kemandirian panti melalui produk yang mereka hasilkan."
             ctaLabel="Lihat Marketplace"
             href="/marketplace"
           />
           <DashboardCard
-            title="Dampak Dukungan"
-            description="Pantau arah dukungan dan perkembangan dampak yang dibangun bersama."
+            title="Pantau Dampak"
+            description="Lihat bagaimana dukungan berkembang menjadi dampak."
             ctaLabel="Lihat Dampak"
             href="/impact"
           />
         </div>
-        <p className="mt-6 rounded-xl border border-emerald-100 bg-emerald-50/60 p-4 text-sm text-slate-700">
-          Pantiku sedang menyiapkan campaign pertama yang terverifikasi bersama panti mitra.
-        </p>
+
+        <EmptyDashboardState
+          title="Campaign pertama sedang disiapkan bersama panti mitra terverifikasi."
+          description="Jelajahi campaign secara berkala. Pantiku akan menampilkan campaign produktif yang sudah siap didukung."
+        />
       </section>
     </ProtectedDashboard>
   );

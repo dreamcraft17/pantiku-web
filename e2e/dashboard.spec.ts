@@ -24,6 +24,18 @@ async function registerDonor(page: import("@playwright/test").Page, email: strin
   await page.getByRole("button", { name: "Daftar Sekarang" }).click();
 }
 
+async function registerVolunteer(page: import("@playwright/test").Page, email: string, password: string) {
+  await page.goto("/register");
+  await page.waitForTimeout(500);
+  await page.getByRole("button", { name: "Relawan" }).click();
+  const nameInput = page.locator('input[placeholder="Nama lengkap"]').first();
+  await nameInput.fill("Relawan Test");
+  await expect(nameInput).toHaveValue("Relawan Test");
+  await page.getByPlaceholder("Email").fill(email);
+  await page.getByPlaceholder("Password").fill(password);
+  await page.getByRole("button", { name: "Daftar Sekarang" }).click();
+}
+
 test("navbar auth state changes after donor login", async ({ page }) => {
   const consoleErrors = attachConsoleGuard(page);
   const email = `donor.nav.${Date.now()}@pantiku.test`;
@@ -49,4 +61,20 @@ test("navbar auth state changes after donor login", async ({ page }) => {
   await expect(navbar.getByRole("link", { name: "Dashboard" })).toBeVisible();
   await expect(navbar.getByRole("button", { name: "Keluar" })).toBeVisible();
   expect(consoleErrors, `Unexpected console errors: ${consoleErrors.join("\n")}`).toEqual([]);
+});
+
+test("volunteer dashboard shows role-specific onboarding content", async ({ page }) => {
+  const email = `volunteer.nav.${Date.now()}@pantiku.test`;
+  const password = "Password123!";
+
+  await registerVolunteer(page, email, password);
+  await page.goto("/login");
+  await page.waitForTimeout(500);
+  await page.getByPlaceholder("Masukkan email").fill(email);
+  await page.getByPlaceholder("Masukkan password").fill(password);
+  await page.getByRole("button", { name: "Masuk" }).click();
+
+  await expect(page).toHaveURL(/\/dashboard\/relawan/);
+  await expect(page.getByRole("heading", { name: "Terima Kasih Sudah Ingin Terlibat" })).toBeVisible();
+  await expect(page.getByText("Program Relawan Sedang Disiapkan")).toBeVisible();
 });

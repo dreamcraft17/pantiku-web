@@ -44,7 +44,8 @@ export default function CampaignDetailPage() {
 
   return (
     <section className="space-y-8">
-      <div className="rounded-xl bg-white p-6">
+      <div className="grid grid-cols-1 gap-8 xl:grid-cols-[1fr_360px]">
+        <div className="rounded-xl bg-white p-6">
         <p className="text-sm font-semibold text-emerald-700">Campaign Produktif</p>
         <h1 className="mt-2 text-3xl font-bold">{campaign.title}</h1>
         <div className="relative mt-4 h-56 w-full overflow-hidden rounded-lg">
@@ -129,30 +130,6 @@ export default function CampaignDetailPage() {
             />
           </div>
           <p className="mt-2 text-sm text-slate-700">Nominal dipilih: {formatRupiah(donationAmount)}</p>
-          <div className="mt-4">
-            <PrimaryButton
-              label="Dukung Sekarang"
-              onClick={async () => {
-                if (!token) {
-                  showToast("Silakan login terlebih dahulu untuk mendukung campaign.");
-                  router.push("/login");
-                  return;
-                }
-                if (donationAmount <= 0) {
-                  showToast("Nominal dukungan belum valid.");
-                  return;
-                }
-                analytics.track("click_donate", { campaignId: campaign.id, amount: donationAmount });
-                try {
-                  const result = await createDonationMutation.mutateAsync({ campaignId: campaign.id, amount: donationAmount });
-                  showToast("Sesi pembayaran demo berhasil dibuat.");
-                  if (!result.paymentId) return;
-                } catch {
-                  showToast("Gagal membuat sesi pembayaran. Coba lagi.");
-                }
-              }}
-            />
-          </div>
           {createDonationMutation.data?.paymentId ? (
             <div className="mt-4 rounded-md border border-slate-200 bg-white p-4">
               <p className="text-sm font-medium text-slate-800">Pembayaran Demo Siap</p>
@@ -174,32 +151,61 @@ export default function CampaignDetailPage() {
               </div>
             </div>
           ) : null}
-          <div className="mt-3">
-            <PrimaryButton
-              label="Bagikan Campaign"
-              variant="outline"
-              onClick={async () => {
-                const shareUrl = `${window.location.origin}/campaigns/${campaign.id}`;
-                if (navigator.share) {
-                  await navigator.share({
-                    title: campaign.title,
-                    text: "Dukung campaign produktif bersama Pantiku.",
-                    url: shareUrl
-                  });
-                  showToast("Campaign berhasil dibagikan.");
-                } else {
-                  await navigator.clipboard.writeText(shareUrl);
-                  showToast("Link campaign berhasil disalin.");
-                }
-              }}
-            />
-          </div>
         </div>
+        </div>
+        <aside className="xl:sticky xl:top-24 xl:h-fit">
+          <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+            <p className="text-sm font-semibold text-emerald-700">Aksi Cepat</p>
+            <p className="mt-2 text-sm text-slate-600">Dukung campaign ini sekarang atau bagikan ke jejaring kamu.</p>
+            <div className="mt-4 space-y-2">
+              <PrimaryButton
+                label="Dukung Sekarang"
+                onClick={async () => {
+                  if (!token) {
+                    showToast("Silakan login terlebih dahulu untuk mendukung campaign.");
+                    router.push("/login");
+                    return;
+                  }
+                  if (donationAmount <= 0) {
+                    showToast("Nominal dukungan belum valid.");
+                    return;
+                  }
+                  analytics.track("click_donate", { campaignId: campaign.id, amount: donationAmount });
+                  try {
+                    const result = await createDonationMutation.mutateAsync({ campaignId: campaign.id, amount: donationAmount });
+                    showToast("Sesi pembayaran demo berhasil dibuat.");
+                    if (!result.paymentId) return;
+                  } catch {
+                    showToast("Gagal membuat sesi pembayaran. Coba lagi.");
+                  }
+                }}
+              />
+              <PrimaryButton
+                label="Bagikan Campaign"
+                variant="outline"
+                onClick={async () => {
+                  const shareUrl = `${window.location.origin}/campaigns/${campaign.id}`;
+                  if (navigator.share) {
+                    await navigator.share({
+                      title: campaign.title,
+                      text: "Dukung campaign produktif bersama Pantiku.",
+                      url: shareUrl
+                    });
+                    showToast("Campaign berhasil dibagikan.");
+                  } else {
+                    await navigator.clipboard.writeText(shareUrl);
+                    showToast("Link campaign berhasil disalin.");
+                  }
+                }}
+              />
+            </div>
+          </div>
+        </aside>
       </div>
 
       <div>
         <h2 className="mb-4 text-xl font-bold">Campaign Terkait</h2>
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {relatedCampaigns.map((item) => (
             <CampaignCard key={item.id} campaign={item} />
           ))}

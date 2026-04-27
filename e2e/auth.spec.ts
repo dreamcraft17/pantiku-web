@@ -36,7 +36,7 @@ test("donor register then login redirects to donor dashboard", async ({ page }) 
   await page.getByRole("button", { name: "Masuk" }).click();
 
   await expect(page).toHaveURL(/\/dashboard\/donor/);
-  await expect(page.getByRole("heading", { name: "Selamat datang kembali" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Selamat Datang di Pantiku" })).toBeVisible();
   expect(consoleErrors, `Unexpected console errors: ${consoleErrors.join("\n")}`).toEqual([]);
 });
 

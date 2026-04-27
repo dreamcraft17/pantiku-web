@@ -41,7 +41,8 @@ export default function ProductDetailPage() {
 
   return (
     <section className="space-y-8">
-      <div className="rounded-xl bg-white p-6">
+      <div className="grid grid-cols-1 gap-8 xl:grid-cols-[1fr_340px]">
+        <div className="rounded-xl bg-white p-6">
         <p className="text-sm font-semibold text-amber-700">Produk Karya Panti</p>
         <h1 className="mt-2 text-3xl font-bold">{product.name}</h1>
         <p className="mt-4 text-2xl font-bold text-emerald-800">{formatRupiah(product.price)}</p>
@@ -67,24 +68,6 @@ export default function ProductDetailPage() {
 
         <p className="mt-4 text-sm font-medium text-slate-800">Stok tersedia: {product.stock}</p>
 
-        <div className="mt-6">
-          <PrimaryButton
-            label="Beli Produk"
-            onClick={async () => {
-              if (!token) {
-                showToast("Silakan login terlebih dahulu untuk membeli produk.");
-                router.push("/login");
-                return;
-              }
-              analytics.track("buy_product", { productId: product.id, price: product.price });
-              try {
-                await createOrderMutation.mutateAsync({ productId: product.id, quantity: 1 });
-              } catch {
-                showToast("Gagal membuat sesi pembayaran. Coba lagi.");
-              }
-            }}
-          />
-        </div>
         {createOrderMutation.data?.paymentId ? (
           <div className="mt-4 rounded-md border border-slate-200 bg-white p-4">
             <p className="text-sm font-medium text-slate-800">Pembayaran Demo Siap</p>
@@ -106,11 +89,36 @@ export default function ProductDetailPage() {
             </div>
           </div>
         ) : null}
+        </div>
+        <aside className="xl:sticky xl:top-24 xl:h-fit">
+          <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm">
+            <p className="text-sm font-semibold text-amber-700">Aksi Cepat</p>
+            <p className="mt-2 text-sm text-slate-600">Lanjutkan pembelian produk untuk mendukung kemandirian panti.</p>
+            <div className="mt-4">
+              <PrimaryButton
+                label="Beli Produk"
+                onClick={async () => {
+                  if (!token) {
+                    showToast("Silakan login terlebih dahulu untuk membeli produk.");
+                    router.push("/login");
+                    return;
+                  }
+                  analytics.track("buy_product", { productId: product.id, price: product.price });
+                  try {
+                    await createOrderMutation.mutateAsync({ productId: product.id, quantity: 1 });
+                  } catch {
+                    showToast("Gagal membuat sesi pembayaran. Coba lagi.");
+                  }
+                }}
+              />
+            </div>
+          </div>
+        </aside>
       </div>
 
       <div>
         <h2 className="mb-4 text-xl font-bold">Produk Terkait</h2>
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {relatedProducts.map((item) => (
             <ProductCard key={item.id} product={item} />
           ))}

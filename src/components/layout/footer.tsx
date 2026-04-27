@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { Logo } from "../common/Logo";
+import { PageContainer } from "./PageContainer";
 
 export function Footer() {
   return (
     <footer className="mt-8 border-t border-slate-200 bg-[#fffefb]">
-      <div className="mx-auto grid w-full max-w-7xl gap-8 px-4 py-10 text-sm text-slate-600 md:grid-cols-2 lg:grid-cols-4 md:px-6">
+      <PageContainer size="wide" className="grid gap-8 py-10 text-sm text-slate-600 md:grid-cols-2 lg:grid-cols-4">
         <div>
           <div className="flex items-center gap-2">
             <Logo size="small" />
@@ -46,11 +47,11 @@ export function Footer() {
             </Link>
           </div>
         </div>
-      </div>
+      </PageContainer>
       <div className="border-t border-slate-200">
-        <div className="mx-auto w-full max-w-7xl px-4 py-4 text-xs text-slate-500 md:px-6">
+        <PageContainer size="wide" className="py-4 text-xs text-slate-500">
           © 2026 Pantiku. Semua hak dilindungi.
-        </div>
+        </PageContainer>
       </div>
     </footer>
   );

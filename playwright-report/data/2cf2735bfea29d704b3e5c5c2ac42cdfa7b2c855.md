@@ -6,27 +6,23 @@
 
 # Test info
 
-- Name: dashboard.spec.ts >> navbar auth state changes after donor login
-- Location: e2e\dashboard.spec.ts:39:5
+- Name: dashboard.spec.ts >> volunteer dashboard shows role-specific onboarding content
+- Location: e2e\dashboard.spec.ts:66:5
 
 # Error details
 
 ```
-Error: Unexpected console errors: Failed to load resource: net::ERR_CONNECTION_REFUSED
-Failed to load resource: net::ERR_CONNECTION_REFUSED
-Failed to load resource: net::ERR_CONNECTION_REFUSED
+Error: expect(page).toHaveURL(expected) failed
 
-expect(received).toEqual(expected) // deep equality
+Expected pattern: /\/dashboard\/relawan/
+Received string:  "http://localhost:3000/dashboard/donor"
+Timeout: 10000ms
 
-- Expected  - 1
-+ Received  + 5
+Call log:
+  - Expect "toHaveURL" with timeout 10000ms
+    7 × unexpected value "http://localhost:3000/login"
+    7 × unexpected value "http://localhost:3000/dashboard/donor"
 
-- Array []
-+ Array [
-+   "Failed to load resource: net::ERR_CONNECTION_REFUSED",
-+   "Failed to load resource: net::ERR_CONNECTION_REFUSED",
-+   "Failed to load resource: net::ERR_CONNECTION_REFUSED",
-+ ]
 ```
 
 # Page snapshot
@@ -124,7 +120,6 @@ expect(received).toEqual(expected) // deep equality
   - button "Open Next.js Dev Tools" [ref=e77] [cursor=pointer]:
     - img [ref=e78]
   - alert [ref=e81]
-  - generic [ref=e82]: Berhasil masuk. Selamat datang kembali.
 ```
 
 # Test source
@@ -192,8 +187,7 @@ expect(received).toEqual(expected) // deep equality
   60 |   await expect(page).toHaveURL(/\/dashboard\/donor/);
   61 |   await expect(navbar.getByRole("link", { name: "Dashboard" })).toBeVisible();
   62 |   await expect(navbar.getByRole("button", { name: "Keluar" })).toBeVisible();
-> 63 |   expect(consoleErrors, `Unexpected console errors: ${consoleErrors.join("\n")}`).toEqual([]);
-     |                                                                                   ^ Error: Unexpected console errors: Failed to load resource: net::ERR_CONNECTION_REFUSED
+  63 |   expect(consoleErrors, `Unexpected console errors: ${consoleErrors.join("\n")}`).toEqual([]);
   64 | });
   65 | 
   66 | test("volunteer dashboard shows role-specific onboarding content", async ({ page }) => {
@@ -207,7 +201,8 @@ expect(received).toEqual(expected) // deep equality
   74 |   await page.getByPlaceholder("Masukkan password").fill(password);
   75 |   await page.getByRole("button", { name: "Masuk" }).click();
   76 | 
-  77 |   await expect(page).toHaveURL(/\/dashboard\/relawan/);
+> 77 |   await expect(page).toHaveURL(/\/dashboard\/relawan/);
+     |                      ^ Error: expect(page).toHaveURL(expected) failed
   78 |   await expect(page.getByRole("heading", { name: "Terima Kasih Sudah Ingin Terlibat" })).toBeVisible();
   79 |   await expect(page.getByText("Program Relawan Sedang Disiapkan")).toBeVisible();
   80 | });

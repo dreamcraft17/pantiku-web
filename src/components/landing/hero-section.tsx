@@ -5,7 +5,7 @@ import { PrimaryButton } from "@/components/common/primary-button";
 export function LandingHeroSection() {
   return (
     <section className="py-16">
-      <div className="grid items-center gap-10 md:grid-cols-2">
+      <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1fr_0.95fr]">
         <div className="space-y-6">
           <span className="inline-flex rounded-full border border-emerald-200 bg-emerald-50 px-4 py-1.5 text-sm font-semibold text-emerald-800">
             Ekosistem Pemberdayaan Panti
@@ -28,7 +28,7 @@ export function LandingHeroSection() {
 
         <div className="relative">
           <div className="pointer-events-none absolute right-10 top-10 h-32 w-32 rounded-full bg-emerald-200 opacity-50 blur-2xl" />
-          <div className="relative h-[350px] w-full overflow-hidden rounded-[2rem] border border-emerald-100 shadow-xl sm:h-[420px] md:h-[450px]">
+          <div className="relative h-[360px] w-full overflow-hidden rounded-[2rem] border border-emerald-100 shadow-xl sm:h-[440px] lg:h-[520px]">
             <Image
               src="/homepage/hp.png"
               alt="Anak-anak program Pantiku"

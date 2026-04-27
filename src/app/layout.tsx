@@ -4,9 +4,10 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { AppQueryProvider } from "@/lib/providers/query-provider";
 import { ToastProvider } from "@/components/common/toast-provider";
+import { PageContainer } from "@/components/layout/PageContainer";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("http://localhost:3000"),
+  metadataBase: new URL("https://pantiku-web.vercel.app"),
   title: "Pantiku",
   description: "Platform pemberdayaan panti asuhan",
   icons: {
@@ -18,7 +19,7 @@ export const metadata: Metadata = {
     title: "Pantiku",
     description: "Platform pemberdayaan panti asuhan",
     type: "website",
-    url: "http://localhost:3000",
+    url: "https://pantiku-web.vercel.app",
     images: [
       {
         url: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1200&q=80",
@@ -40,16 +41,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id" className="h-full antialiased">
-      <head>
+      {/* <head>
         <link rel="icon" href="/Logo/logo.png" />
         <link rel="apple-touch-icon" href="/Logo/logo.png" />
-      </head>
+      </head> */}
       <body className="min-h-full flex flex-col bg-amber-50/30 text-slate-900">
         <AppQueryProvider>
           <ToastProvider>
             <Navbar />
             <main className="w-full flex-1">
-              <div className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-8">{children}</div>
+              <PageContainer size="wide" className="py-10">
+                {children}
+              </PageContainer>
             </main>
             <Footer />
           </ToastProvider>

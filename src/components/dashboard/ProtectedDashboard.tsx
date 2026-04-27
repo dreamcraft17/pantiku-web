@@ -60,7 +60,7 @@ export function ProtectedDashboard({ allowedRoles, children }: Props) {
 
   if (resolving || !token || !hasAllowedRole) {
     return (
-      <section className="mx-auto w-full max-w-7xl py-10">
+      <section className="py-10">
         <div className="rounded-2xl border border-emerald-100 bg-white p-6 text-sm text-slate-600 shadow-sm">
           Menyiapkan dashboard kamu...
         </div>

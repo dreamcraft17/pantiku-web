@@ -33,7 +33,7 @@ export function FeatureCardsSection() {
           Pantiku membuka ruang kolaborasi untuk donatur, pengelola panti, relawan, dan mitra.
         </p>
       </div>
-      <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
         {features.map((item) => {
           const Icon = item.icon;
           return (

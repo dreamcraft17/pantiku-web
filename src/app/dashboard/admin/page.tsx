@@ -7,12 +7,12 @@ import { ProtectedDashboard } from "@/components/dashboard/ProtectedDashboard";
 export default function AdminDashboardPage() {
   return (
     <ProtectedDashboard allowedRoles={["ADMIN"]}>
-      <section className="mx-auto w-full max-w-7xl py-8">
+      <section className="py-10">
         <DashboardHeader
           title="Dashboard Admin Pantiku"
           subtitle="Kelola verifikasi panti, campaign, produk, dan aktivitas platform."
         />
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
           <DashboardCard title="Verifikasi Panti" description="Tinjau pengajuan panti baru dan status verifikasinya." ctaLabel="Tinjau Panti" href="/orphanages" />
           <DashboardCard title="Campaign" description="Pantau kualitas campaign sebelum dipublikasikan lebih luas." ctaLabel="Kelola Campaign" href="/campaigns" />
           <DashboardCard title="Produk" description="Lihat produk karya panti yang sedang aktif atau menunggu moderasi." ctaLabel="Kelola Produk" href="/marketplace" />

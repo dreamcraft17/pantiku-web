@@ -51,68 +51,75 @@ Call log:
           - /url: /dashboard/donor
         - button "Keluar" [ref=e16]
   - main [ref=e17]:
-    - generic [ref=e18]:
-      - generic [ref=e19]:
-        - heading "Selamat datang kembali" [level=1] [ref=e20]
-        - paragraph [ref=e21]: Lanjutkan dukunganmu untuk membangun panti yang lebih mandiri.
-      - generic [ref=e22]:
-        - article [ref=e23]:
-          - heading "Campaign Produktif" [level=3] [ref=e24]
-          - paragraph [ref=e25]: Lihat campaign yang sedang berjalan dan dukung program yang relevan.
-          - link "Jelajahi Campaign" [ref=e26] [cursor=pointer]:
+    - generic [ref=e19]:
+      - generic [ref=e20]:
+        - heading "Selamat Datang di Pantiku" [level=1] [ref=e21]
+        - paragraph [ref=e22]: Dukung campaign produktif, beli produk karya panti, dan lihat dampak dari kontribusimu.
+        - generic [ref=e23]:
+          - link "Jelajahi Campaign" [ref=e24] [cursor=pointer]:
             - /url: /campaigns
+          - link "Lihat Produk Karya Panti" [ref=e25] [cursor=pointer]:
+            - /url: /marketplace
+      - generic [ref=e26]:
         - article [ref=e27]:
-          - heading "Produk Karya Panti" [level=3] [ref=e28]
-          - paragraph [ref=e29]: Temukan produk karya panti dan bantu keberlanjutan ekonomi panti.
-          - link "Lihat Marketplace" [ref=e30] [cursor=pointer]:
-            - /url: /marketplace
-        - article [ref=e31]:
-          - heading "Dampak Dukungan" [level=3] [ref=e32]
-          - paragraph [ref=e33]: Pantau arah dukungan dan perkembangan dampak yang dibangun bersama.
-          - link "Lihat Dampak" [ref=e34] [cursor=pointer]:
-            - /url: /impact
-      - paragraph [ref=e35]: Pantiku sedang menyiapkan campaign pertama yang terverifikasi bersama panti mitra.
-  - contentinfo [ref=e36]:
-    - generic [ref=e37]:
-      - generic [ref=e38]:
-        - generic [ref=e39]:
-          - img "Pantiku Logo" [ref=e40]
-          - generic [ref=e41]: Pantiku
-        - paragraph [ref=e42]: Anak Bertumbuh, Panti Mandiri.
-        - paragraph [ref=e43]: Pantiku membangun ekosistem digital untuk mendukung pemberdayaan panti dan masa depan anak.
-      - generic [ref=e44]:
-        - paragraph [ref=e45]: Platform
-        - generic [ref=e46]:
-          - link "Campaign" [ref=e47] [cursor=pointer]:
+          - heading "Dukung Campaign Produktif" [level=3] [ref=e28]
+          - paragraph [ref=e29]: Bantu panti mendapatkan alat, pelatihan, dan modal produktif.
+          - link "Lihat Campaign" [ref=e30] [cursor=pointer]:
             - /url: /campaigns
-          - link "Produk Karya Panti" [ref=e48] [cursor=pointer]:
+        - article [ref=e31]:
+          - heading "Beli Produk Karya Panti" [level=3] [ref=e32]
+          - paragraph [ref=e33]: Dukung kemandirian panti melalui produk yang mereka hasilkan.
+          - link "Lihat Marketplace" [ref=e34] [cursor=pointer]:
             - /url: /marketplace
-          - link "Lihat Dampak" [ref=e49] [cursor=pointer]:
+        - article [ref=e35]:
+          - heading "Pantau Dampak" [level=3] [ref=e36]
+          - paragraph [ref=e37]: Lihat bagaimana dukungan berkembang menjadi dampak.
+          - link "Lihat Dampak" [ref=e38] [cursor=pointer]:
             - /url: /impact
-          - link "Panti Berdaya" [ref=e50] [cursor=pointer]:
+      - generic [ref=e39]:
+        - heading "Campaign pertama sedang disiapkan bersama panti mitra terverifikasi." [level=3] [ref=e40]
+        - paragraph [ref=e41]: Jelajahi campaign secara berkala. Pantiku akan menampilkan campaign produktif yang sudah siap didukung.
+  - contentinfo [ref=e42]:
+    - generic [ref=e43]:
+      - generic [ref=e44]:
+        - generic [ref=e45]:
+          - img "Pantiku Logo" [ref=e46]
+          - generic [ref=e47]: Pantiku
+        - paragraph [ref=e48]: Anak Bertumbuh, Panti Mandiri.
+        - paragraph [ref=e49]: Pantiku membangun ekosistem digital untuk mendukung pemberdayaan panti dan masa depan anak.
+      - generic [ref=e50]:
+        - paragraph [ref=e51]: Platform
+        - generic [ref=e52]:
+          - link "Campaign" [ref=e53] [cursor=pointer]:
+            - /url: /campaigns
+          - link "Produk Karya Panti" [ref=e54] [cursor=pointer]:
+            - /url: /marketplace
+          - link "Lihat Dampak" [ref=e55] [cursor=pointer]:
+            - /url: /impact
+          - link "Panti Berdaya" [ref=e56] [cursor=pointer]:
             - /url: /orphanages
-      - generic [ref=e51]:
-        - paragraph [ref=e52]: Bergabung
-        - generic [ref=e53]:
-          - link "Donatur" [ref=e54] [cursor=pointer]:
+      - generic [ref=e57]:
+        - paragraph [ref=e58]: Bergabung
+        - generic [ref=e59]:
+          - link "Donatur" [ref=e60] [cursor=pointer]:
             - /url: /register
-          - link "Pengelola Panti" [ref=e55] [cursor=pointer]:
+          - link "Pengelola Panti" [ref=e61] [cursor=pointer]:
             - /url: /register
-          - link "Relawan" [ref=e56] [cursor=pointer]:
+          - link "Relawan" [ref=e62] [cursor=pointer]:
             - /url: /register
-          - link "Mitra CSR" [ref=e57] [cursor=pointer]:
+          - link "Mitra CSR" [ref=e63] [cursor=pointer]:
             - /url: /register
-      - generic [ref=e58]:
-        - paragraph [ref=e59]: Kontak
-        - generic [ref=e60]:
-          - paragraph [ref=e61]: halo@pantiku.id
-          - paragraph [ref=e62]: Indonesia
-          - link "Hubungi Kami" [ref=e63] [cursor=pointer]:
+      - generic [ref=e64]:
+        - paragraph [ref=e65]: Kontak
+        - generic [ref=e66]:
+          - paragraph [ref=e67]: halo@pantiku.id
+          - paragraph [ref=e68]: Indonesia
+          - link "Hubungi Kami" [ref=e69] [cursor=pointer]:
             - /url: /login
-    - generic [ref=e65]: © 2026 Pantiku. Semua hak dilindungi.
-  - button "Open Next.js Dev Tools" [ref=e71] [cursor=pointer]:
-    - img [ref=e72]
-  - alert [ref=e75]
+    - generic [ref=e71]: © 2026 Pantiku. Semua hak dilindungi.
+  - button "Open Next.js Dev Tools" [ref=e77] [cursor=pointer]:
+    - img [ref=e78]
+  - alert [ref=e81]
 ```
 
 # Test source
@@ -156,7 +163,7 @@ Call log:
   36 |   await page.getByRole("button", { name: "Masuk" }).click();
   37 | 
   38 |   await expect(page).toHaveURL(/\/dashboard\/donor/);
-  39 |   await expect(page.getByRole("heading", { name: "Selamat datang kembali" })).toBeVisible();
+  39 |   await expect(page.getByRole("heading", { name: "Selamat Datang di Pantiku" })).toBeVisible();
   40 |   expect(consoleErrors, `Unexpected console errors: ${consoleErrors.join("\n")}`).toEqual([]);
   41 | });
   42 | 

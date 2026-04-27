@@ -56,62 +56,62 @@ expect(received).toEqual(expected) // deep equality
         - link "Gabung Sekarang" [ref=e16] [cursor=pointer]:
           - /url: /register
   - main [ref=e17]:
-    - generic [ref=e18]:
-      - generic [ref=e19]:
-        - paragraph [ref=e20]: Marketplace
-        - heading "Produk Karya Panti" [level=2] [ref=e21]
-        - paragraph [ref=e22]: Setiap pembelian mendukung program produktif dan kemandirian panti.
-      - generic [ref=e23]:
-        - textbox "Cari produk atau panti..." [ref=e24]
-        - combobox [ref=e25]:
+    - generic [ref=e19]:
+      - generic [ref=e20]:
+        - paragraph [ref=e21]: Marketplace
+        - heading "Produk Karya Panti" [level=2] [ref=e22]
+        - paragraph [ref=e23]: Setiap pembelian mendukung program produktif dan kemandirian panti.
+      - generic [ref=e24]:
+        - textbox "Cari produk atau panti..." [ref=e25]
+        - combobox [ref=e26]:
           - option "Semua" [selected]
-      - generic [ref=e26]:
-        - generic [ref=e27]:
-          - heading "Produk karya panti segera hadir" [level=3] [ref=e28]
-          - paragraph [ref=e29]: Marketplace Pantiku akan menampilkan produk dari panti mitra setelah proses kurasi dan verifikasi selesai.
-        - link "Saya Pengelola Panti" [ref=e30] [cursor=pointer]:
+      - generic [ref=e27]:
+        - generic [ref=e28]:
+          - heading "Produk karya panti segera hadir" [level=3] [ref=e29]
+          - paragraph [ref=e30]: Marketplace Pantiku akan menampilkan produk dari panti mitra setelah proses kurasi dan verifikasi selesai.
+        - link "Saya Pengelola Panti" [ref=e31] [cursor=pointer]:
           - /url: /register
-  - contentinfo [ref=e31]:
-    - generic [ref=e32]:
-      - generic [ref=e33]:
-        - generic [ref=e34]:
-          - img "Pantiku Logo" [ref=e35]
-          - generic [ref=e36]: Pantiku
-        - paragraph [ref=e37]: Anak Bertumbuh, Panti Mandiri.
-        - paragraph [ref=e38]: Pantiku membangun ekosistem digital untuk mendukung pemberdayaan panti dan masa depan anak.
-      - generic [ref=e39]:
-        - paragraph [ref=e40]: Platform
-        - generic [ref=e41]:
-          - link "Campaign" [ref=e42] [cursor=pointer]:
+  - contentinfo [ref=e32]:
+    - generic [ref=e33]:
+      - generic [ref=e34]:
+        - generic [ref=e35]:
+          - img "Pantiku Logo" [ref=e36]
+          - generic [ref=e37]: Pantiku
+        - paragraph [ref=e38]: Anak Bertumbuh, Panti Mandiri.
+        - paragraph [ref=e39]: Pantiku membangun ekosistem digital untuk mendukung pemberdayaan panti dan masa depan anak.
+      - generic [ref=e40]:
+        - paragraph [ref=e41]: Platform
+        - generic [ref=e42]:
+          - link "Campaign" [ref=e43] [cursor=pointer]:
             - /url: /campaigns
-          - link "Produk Karya Panti" [ref=e43] [cursor=pointer]:
+          - link "Produk Karya Panti" [ref=e44] [cursor=pointer]:
             - /url: /marketplace
-          - link "Lihat Dampak" [ref=e44] [cursor=pointer]:
+          - link "Lihat Dampak" [ref=e45] [cursor=pointer]:
             - /url: /impact
-          - link "Panti Berdaya" [ref=e45] [cursor=pointer]:
+          - link "Panti Berdaya" [ref=e46] [cursor=pointer]:
             - /url: /orphanages
-      - generic [ref=e46]:
-        - paragraph [ref=e47]: Bergabung
-        - generic [ref=e48]:
-          - link "Donatur" [ref=e49] [cursor=pointer]:
+      - generic [ref=e47]:
+        - paragraph [ref=e48]: Bergabung
+        - generic [ref=e49]:
+          - link "Donatur" [ref=e50] [cursor=pointer]:
             - /url: /register
-          - link "Pengelola Panti" [ref=e50] [cursor=pointer]:
+          - link "Pengelola Panti" [ref=e51] [cursor=pointer]:
             - /url: /register
-          - link "Relawan" [ref=e51] [cursor=pointer]:
+          - link "Relawan" [ref=e52] [cursor=pointer]:
             - /url: /register
-          - link "Mitra CSR" [ref=e52] [cursor=pointer]:
+          - link "Mitra CSR" [ref=e53] [cursor=pointer]:
             - /url: /register
-      - generic [ref=e53]:
-        - paragraph [ref=e54]: Kontak
-        - generic [ref=e55]:
-          - paragraph [ref=e56]: halo@pantiku.id
-          - paragraph [ref=e57]: Indonesia
-          - link "Hubungi Kami" [ref=e58] [cursor=pointer]:
+      - generic [ref=e54]:
+        - paragraph [ref=e55]: Kontak
+        - generic [ref=e56]:
+          - paragraph [ref=e57]: halo@pantiku.id
+          - paragraph [ref=e58]: Indonesia
+          - link "Hubungi Kami" [ref=e59] [cursor=pointer]:
             - /url: /login
-    - generic [ref=e60]: © 2026 Pantiku. Semua hak dilindungi.
-  - button "Open Next.js Dev Tools" [ref=e66] [cursor=pointer]:
-    - img [ref=e67]
-  - alert [ref=e70]
+    - generic [ref=e61]: © 2026 Pantiku. Semua hak dilindungi.
+  - button "Open Next.js Dev Tools" [ref=e67] [cursor=pointer]:
+    - img [ref=e68]
+  - alert [ref=e71]
 ```
 
 # Test source
