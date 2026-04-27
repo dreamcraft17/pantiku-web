@@ -11,9 +11,9 @@ export const metadata: Metadata = {
   title: "Pantiku",
   description: "Platform pemberdayaan panti asuhan",
   icons: {
-    icon: "/Logo/logo.png",
-    shortcut: "/Logo/logo.png",
-    apple: "/Logo/logo.png"
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/logo/logo.png"
   },
   openGraph: {
     title: "Pantiku",
@@ -41,10 +41,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id" className="h-full antialiased">
-      {/* <head>
-        <link rel="icon" href="/Logo/logo.png" />
-        <link rel="apple-touch-icon" href="/Logo/logo.png" />
-      </head> */}
       <body className="min-h-full flex flex-col bg-amber-50/30 text-slate-900">
         <AppQueryProvider>
           <ToastProvider>

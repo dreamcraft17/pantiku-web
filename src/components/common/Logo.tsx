@@ -22,7 +22,7 @@ export function Logo({ size = "medium", className, linked = false, priority = fa
   const dimensions = sizeMap[size];
   const image = (
     <Image
-      src="/Logo/logo.png"
+      src="/logo/logo.png"
       alt="Pantiku Logo"
       width={dimensions.width}
       height={dimensions.height}
