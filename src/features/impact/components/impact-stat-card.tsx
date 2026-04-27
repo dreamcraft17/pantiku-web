@@ -44,7 +44,7 @@ export function ImpactStatCard({
 
   const displayValue =
     resolvedTarget == null
-      ? value ?? "0"
+      ? value ?? "-"
       : isCurrency
         ? formatRupiah(animatedValue)
         : animatedValue.toLocaleString("id-ID");
