@@ -6,31 +6,14 @@ import { PrimaryButton } from "@/components/common/primary-button";
 import { SkeletonState } from "@/components/common/skeleton-state";
 import { ImpactStatCard } from "@/features/impact/components/impact-stat-card";
 import { useImpactStories, useImpactSummary } from "@/features/impact/api/use-impact-summary";
-import { isDemoMode } from "@/lib/utils/isDemoMode";
+import { ImpactSummaryResponse } from "@/lib/api/impact";
 
 type ImpactData = {
-  totalChildren?: number;
-  totalOrphanages?: number;
-  totalCampaigns?: number;
-  totalProductsSold?: number;
-  totalDonations?: number;
-  total_children_supported?: number;
-  total_orphanages?: number;
-  total_campaigns?: number;
-  total_products_sold?: number;
-  total_donations_amount?: number;
-  growth?: {
-    totalChildren?: number;
-    totalOrphanages?: number;
-    totalCampaigns?: number;
-    totalProductsSold?: number;
-    totalDonations?: number;
-    total_children_supported?: number;
-    total_orphanages?: number;
-    total_campaigns?: number;
-    total_products_sold?: number;
-    total_donations_amount?: number;
-  };
+  totalChildren: number;
+  totalOrphanages: number;
+  totalCampaigns: number;
+  totalProductsSold: number;
+  totalDonationsAmount: number;
 };
 
 type ImpactStory = {
@@ -43,9 +26,10 @@ type ImpactStory = {
 export default function ImpactPage() {
   const query = useImpactSummary();
   const storiesQuery = useImpactStories();
-  const data = (query.data ?? null) as ImpactData | null;
+  const response = (query.data ?? null) as ImpactSummaryResponse | null;
+  const data = (response?.summary ?? null) as ImpactData | null;
   const stories = (storiesQuery.data ?? []) as ImpactStory[];
-  const demoMode = isDemoMode();
+  const isDemo = response?.isDemo === true;
 
   if (query.isLoading) {
     return (
@@ -61,44 +45,41 @@ export default function ImpactPage() {
   }
 
   if (query.isError && !data) {
-    return <ErrorState message="Gagal memuat dampak. Silakan coba lagi." onRetry={() => query.refetch()} />;
+    return <ErrorState message="Data dampak belum dapat dimuat." onRetry={() => query.refetch()} />;
   }
 
-  const totalChildren = data?.totalChildren ?? data?.total_children_supported ?? null;
-  const totalOrphanages = data?.totalOrphanages ?? data?.total_orphanages ?? null;
-  const totalCampaigns = data?.totalCampaigns ?? data?.total_campaigns ?? null;
-  const totalProductsSold = data?.totalProductsSold ?? data?.total_products_sold ?? null;
-  const totalDonations = data?.totalDonations ?? data?.total_donations_amount ?? null;
-  const growthDonations = data?.growth?.totalDonations ?? data?.growth?.total_donations_amount;
+  const totalChildren = data?.totalChildren ?? 0;
+  const totalOrphanages = data?.totalOrphanages ?? 0;
+  const totalCampaigns = data?.totalCampaigns ?? 0;
+  const totalProductsSold = data?.totalProductsSold ?? 0;
+  const totalDonations = data?.totalDonationsAmount ?? 0;
 
-  const hasAnyMetric =
-    [totalChildren, totalOrphanages, totalCampaigns, totalProductsSold, totalDonations].filter(
-      (value): value is number => typeof value === "number"
-    ).length > 0;
+  const isRealEmpty =
+    response?.mode === "real" &&
+    totalChildren === 0 &&
+    totalOrphanages === 0 &&
+    totalCampaigns === 0 &&
+    totalProductsSold === 0 &&
+    totalDonations === 0;
 
-  const isEmpty = !hasAnyMetric;
-  if (isEmpty) {
+  if (isRealEmpty) {
     return (
       <section className="space-y-4">
-        {demoMode ? (
-          <div className="flex justify-end">
-            <span className="rounded-full border border-amber-300 bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-800">Mode Demo</span>
-          </div>
-        ) : null}
-        <EmptyState title="Data dampak belum tersedia" description="Data dampak sedang disiapkan seiring bertumbuhnya ekosistem Pantiku" />
-        {demoMode ? (
-          <p className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
-            Angka yang ditampilkan adalah simulasi untuk kebutuhan demonstrasi
-          </p>
-        ) : null}
+        <EmptyState
+          title="Data dampak sedang disiapkan"
+          description="Pantiku akan menampilkan data dampak setelah campaign, donasi, dan produk terverifikasi mulai berjalan."
+        />
+        <div>
+          <PrimaryButton href="/campaigns" label="Jelajahi Campaign" />
+        </div>
       </section>
     );
   }
 
   return (
-    <section className="space-y-8">
+    <section className="space-y-8 py-10">
       <header className="relative rounded-xl bg-white p-6">
-        {demoMode ? (
+        {isDemo ? (
           <span className="absolute right-4 top-4 rounded-full border border-amber-300 bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-800">
             Demo Mode
           </span>
@@ -106,53 +87,41 @@ export default function ImpactPage() {
         <p className="text-sm font-semibold text-emerald-700">Impact Dashboard</p>
         <h1 className="mt-2 text-3xl font-bold">Dampak Nyata Bersama Pantiku</h1>
         <p className="mt-2 text-slate-600">Setiap dukungan membantu anak bertumbuh dan panti menjadi mandiri</p>
-        {demoMode ? (
+        {isDemo ? (
           <p className="mt-3 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900">
-            Angka yang ditampilkan adalah simulasi untuk kebutuhan demonstrasi
+            Angka yang ditampilkan adalah simulasi untuk kebutuhan demonstrasi dan belum mewakili data operasional sebenarnya.
           </p>
         ) : null}
       </header>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
         <ImpactStatCard
           label="Anak Terjangkau"
           numericValue={totalChildren}
-          growth={data?.growth?.totalChildren ?? data?.growth?.total_children_supported}
           icon="🧒"
         />
         <ImpactStatCard
-          label="Panti Terdaftar"
+          label="Panti Terverifikasi"
           numericValue={totalOrphanages}
-          growth={data?.growth?.totalOrphanages ?? data?.growth?.total_orphanages}
           icon="🏠"
         />
         <ImpactStatCard
           label="Campaign Aktif"
           numericValue={totalCampaigns}
-          growth={data?.growth?.totalCampaigns ?? data?.growth?.total_campaigns}
           icon="🎯"
         />
         <ImpactStatCard
           label="Produk Terjual"
           numericValue={totalProductsSold}
-          growth={data?.growth?.totalProductsSold ?? data?.growth?.total_products_sold}
           icon="🛍️"
         />
         <ImpactStatCard
-          label="Total Dukungan (IDR)"
+          label="Total Dukungan"
           numericValue={totalDonations}
           isCurrency
-          growth={growthDonations}
           icon="💚"
         />
       </div>
-
-      {typeof growthDonations === "number" ? (
-        <section className="rounded-xl border border-emerald-200 bg-emerald-50 p-5">
-          <p className="text-sm font-medium text-emerald-900">Pertumbuhan Dukungan</p>
-          <p className="mt-1 text-lg font-bold text-emerald-800">{`${growthDonations >= 0 ? "+" : ""}${growthDonations}%`} bulan ini</p>
-        </section>
-      ) : null}
 
       <section className="rounded-xl bg-white p-6">
         <h2 className="text-xl font-bold">Dari Donasi ke Kemandirian</h2>
@@ -162,7 +131,7 @@ export default function ImpactPage() {
         </p>
         <div className="mt-4 grid gap-3 md:grid-cols-4">
           {["Campaign", "Skill", "Produk", "Income"].map((item) => (
-            <div key={item} className="rounded-lg border border-slate-200 bg-slate-50 p-3 text-center text-sm font-medium text-slate-700">
+            <div key={item} className="rounded-lg border border-slate-200 bg-slate-50 p-3 text-left text-sm font-medium text-slate-700">
               {item}
             </div>
           ))}

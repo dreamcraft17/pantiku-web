@@ -48,7 +48,9 @@ export default function RootLayout({
         <AppQueryProvider>
           <ToastProvider>
             <Navbar />
-            <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">{children}</main>
+            <main className="w-full flex-1">
+              <div className="mx-auto w-full max-w-7xl px-4 py-10 sm:px-6 lg:px-8">{children}</div>
+            </main>
             <Footer />
           </ToastProvider>
         </AppQueryProvider>

@@ -25,7 +25,7 @@ const features = [
 
 export function FeatureCardsSection() {
   return (
-    <section className="mx-auto w-full max-w-7xl px-4 py-20 md:px-6">
+    <section className="py-16">
       <div className="mb-8 max-w-3xl">
         <p className="text-sm font-semibold uppercase tracking-wide text-emerald-700">Cara Berkontribusi</p>
         <h2 className="mt-2 text-3xl font-bold text-slate-900">Banyak Cara untuk Membangun Panti yang Berdaya</h2>

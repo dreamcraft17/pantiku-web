@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export function LandingCtaSection() {
   return (
-    <section className="mx-auto w-full max-w-7xl px-4 py-20 md:px-6">
+    <section className="py-16">
       <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-emerald-700 to-emerald-900 p-10 text-white shadow-xl md:p-12">
         <div className="pointer-events-none absolute -right-10 top-8 h-44 w-44 rounded-full bg-emerald-300/20 blur-3xl" />
         <div className="pointer-events-none absolute -left-6 bottom-0 h-36 w-36 rounded-full bg-amber-200/20 blur-2xl" />

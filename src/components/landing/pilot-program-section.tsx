@@ -17,7 +17,7 @@ const upcoming = [
 
 export function PilotProgramSection() {
   return (
-    <section className="mx-auto w-full max-w-7xl px-4 py-20 md:px-6">
+    <section className="py-16">
       <div className="relative overflow-hidden rounded-[2rem] border border-emerald-100 bg-emerald-50/60 p-8 md:p-10">
         <div className="pointer-events-none absolute -top-8 right-10 h-40 w-40 rounded-full bg-emerald-200/50 blur-3xl" />
         <div className="relative grid gap-8 lg:grid-cols-[1.1fr_1fr]">

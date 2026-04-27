@@ -25,7 +25,7 @@ const impactQualitative = [
 
 export function ImpactPreviewSection() {
   return (
-    <section className="mx-auto w-full max-w-7xl px-4 py-20 md:px-6">
+    <section className="py-16">
       <div className="rounded-3xl border border-emerald-100 bg-white p-8 shadow-sm md:p-10">
         <h2 className="text-2xl font-bold text-slate-900 md:text-3xl">Dampak yang Ingin Kita Bangun Bersama</h2>
         <p className="mt-3 max-w-3xl text-slate-600">
