@@ -13,7 +13,8 @@ import { ProfileLayout } from "@/components/profile/ProfileLayout";
 import { DonorProfile } from "@/components/profile/donor/DonorProfile";
 import { OrphanageProfile } from "@/components/profile/orphanage/OrphanageProfile";
 import { VolunteerProfile } from "@/components/profile/volunteer/VolunteerProfile";
-import { getDonorProfileData, getOrphanageProfileData, getVolunteerProfileData } from "@/lib/profile/profile-adapter";
+import { fetchDonorProfile, fetchOrphanageProfile, fetchVolunteerProfile } from "@/lib/profile/profile-service";
+import { DonorProfileData, OrphanageProfileData, VolunteerProfileData } from "@/lib/profile/profile-types";
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -25,6 +26,9 @@ export default function ProfilePage() {
   const setUser = useAuthStore((state) => state.setUser);
   const logout = useAuthStore((state) => state.logout);
   const [resolving, setResolving] = useState(true);
+  const [donorProfileData, setDonorProfileData] = useState<DonorProfileData | null>(null);
+  const [orphanageProfileData, setOrphanageProfileData] = useState<OrphanageProfileData | null>(null);
+  const [volunteerProfileData, setVolunteerProfileData] = useState<VolunteerProfileData | null>(null);
 
   useEffect(() => {
     const resolveProfile = async () => {
@@ -33,24 +37,45 @@ export default function ProfilePage() {
         return;
       }
 
-      if (role && user) {
-        setResolving(false);
-        return;
-      }
+      let nextRole: AppRole = role;
+      let nextUser = user;
 
-      if (!role) {
+      if (!nextRole) {
         const jwtRole = getRoleFromJwt(token);
         if (jwtRole) {
+          nextRole = jwtRole;
           setRole(jwtRole);
         }
       }
 
-      if (!user) {
+      if (!nextUser) {
         const me = await getMe();
         if (me?.user) {
+          nextUser = me.user;
           setUser(me.user);
-          if (me.user.role) setRole(me.user.role);
+          if (me.user.role) {
+            nextRole = me.user.role;
+            setRole(me.user.role);
+          }
         }
+      }
+
+      if (nextRole === "DONOR") {
+        setDonorProfileData(await fetchDonorProfile(nextUser));
+      } else {
+        setDonorProfileData(null);
+      }
+
+      if (nextRole === "ORPHANAGE_MANAGER") {
+        setOrphanageProfileData(await fetchOrphanageProfile(nextUser));
+      } else {
+        setOrphanageProfileData(null);
+      }
+
+      if (nextRole === "VOLUNTEER") {
+        setVolunteerProfileData(await fetchVolunteerProfile(nextUser));
+      } else {
+        setVolunteerProfileData(null);
       }
 
       setResolving(false);
@@ -67,10 +92,6 @@ export default function ProfilePage() {
 
   const profileName = user?.fullName?.trim() || "Sahabat Pantiku";
   const profileEmail = user?.email?.trim() || "email-belum-tersedia@pantiku.id";
-  const donorProfileData = useMemo(() => getDonorProfileData(user), [user]);
-  const orphanageProfileData = useMemo(() => getOrphanageProfileData(user), [user]);
-  const volunteerProfileData = useMemo(() => getVolunteerProfileData(user), [user]);
-
   const mainAction = useMemo(() => {
     if (resolvedRole === "DONOR") return { label: "Jelajahi Campaign", href: "/campaigns" };
     if (resolvedRole === "ORPHANAGE_MANAGER") return { label: "Buat Campaign", href: "/campaigns" };
@@ -120,9 +141,9 @@ export default function ProfilePage() {
         onLogout={handleLogout}
       />
 
-      {resolvedRole === "DONOR" ? <DonorProfile data={donorProfileData} /> : null}
-      {resolvedRole === "ORPHANAGE_MANAGER" ? <OrphanageProfile data={orphanageProfileData} /> : null}
-      {resolvedRole === "VOLUNTEER" ? <VolunteerProfile data={volunteerProfileData} /> : null}
+      {resolvedRole === "DONOR" && donorProfileData ? <DonorProfile data={donorProfileData} /> : null}
+      {resolvedRole === "ORPHANAGE_MANAGER" && orphanageProfileData ? <OrphanageProfile data={orphanageProfileData} /> : null}
+      {resolvedRole === "VOLUNTEER" && volunteerProfileData ? <VolunteerProfile data={volunteerProfileData} /> : null}
       {resolvedRole !== "DONOR" && resolvedRole !== "ORPHANAGE_MANAGER" && resolvedRole !== "VOLUNTEER" ? (
         <EmptyState
           title="Role profil belum dikenali"
