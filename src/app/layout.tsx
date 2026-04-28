@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
@@ -42,17 +43,19 @@ export default function RootLayout({
   return (
     <html lang="id" className="h-full antialiased">
       <body className="min-h-full flex flex-col bg-amber-50/30 text-slate-900">
-        <AppQueryProvider>
-          <ToastProvider>
-            <Navbar />
-            <main className="w-full flex-1">
-              <PageContainer size="wide" className="py-10">
-                {children}
-              </PageContainer>
-            </main>
-            <Footer />
-          </ToastProvider>
-        </AppQueryProvider>
+        <ClerkProvider>
+          <AppQueryProvider>
+            <ToastProvider>
+              <Navbar />
+              <main className="w-full flex-1">
+                <PageContainer size="wide" className="py-10">
+                  {children}
+                </PageContainer>
+              </main>
+              <Footer />
+            </ToastProvider>
+          </AppQueryProvider>
+        </ClerkProvider>
       </body>
     </html>
   );

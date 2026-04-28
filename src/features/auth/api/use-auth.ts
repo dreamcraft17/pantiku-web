@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation } from "@tanstack/react-query";
-import { login, loginWithGoogle, RegisterPayload, register } from "@/lib/api/auth";
+import { login, loginWithClerk, RegisterPayload, register } from "@/lib/api/auth";
 import { useAuthStore } from "../store/auth-store";
 
 export function useLogin() {
@@ -20,10 +20,10 @@ export function useRegister() {
   });
 }
 
-export function useGoogleLogin() {
+export function useClerkLogin() {
   const setTokens = useAuthStore((state) => state.setTokens);
   return useMutation({
-    mutationFn: ({ idToken }: { idToken: string }) => loginWithGoogle(idToken),
+    mutationFn: (payload: { email: string; name: string; clerkId: string }) => loginWithClerk(payload),
     onSuccess: (data) => setTokens(data.accessToken, data.refreshToken, data.user.role, data.user),
   });
 }
