@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useClerk } from "@clerk/nextjs";
 import { PrimaryButton } from "../common/primary-button";
 import { useAuthStore } from "@/features/auth/store/auth-store";
 import { canManageOrphanage } from "@/lib/auth/permissions";
@@ -19,6 +20,7 @@ const links = [
 
 export function Navbar() {
   const router = useRouter();
+  const { signOut } = useClerk();
   const pathname = usePathname();
   const token = useAuthStore((state) => state.token);
   const role = useAuthStore((state) => state.role);
@@ -31,8 +33,13 @@ export function Navbar() {
     setIsMobileMenuOpen(false);
   }, [pathname]);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     clearAuth();
+    try {
+      await signOut();
+    } catch {
+      // Keep Pantiku logout successful even if Clerk sign out fails.
+    }
     router.push("/login");
   };
 
