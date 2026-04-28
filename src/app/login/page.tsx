@@ -32,7 +32,7 @@ export default function LoginPage() {
 
     const primaryEmail = user.primaryEmailAddress?.emailAddress;
     if (!primaryEmail) {
-      setClerkError("Email akun Google tidak ditemukan.");
+      showToast("Email akun Google tidak ditemukan.", "error");
       return;
     }
 

@@ -22,6 +22,15 @@ export type DonorRecommendationItem = {
   tag: string;
 };
 
+export type DonorImpactUpdateItem = {
+  campaignId: string;
+  campaignTitle: string;
+  title: string;
+  description: string;
+  date: string;
+  authorRole: "ORPHANAGE_MANAGER" | "ADMIN";
+};
+
 export type DonorProfileData = {
   isDemoData: boolean;
   userName: string;
@@ -30,6 +39,7 @@ export type DonorProfileData = {
   stats: [ProfileStat, ProfileStat, ProfileStat];
   contributionHistory: DonorContributionHistoryItem[];
   recommendations: DonorRecommendationItem[];
+  impactUpdates: DonorImpactUpdateItem[];
 };
 
 export type OrphanageCampaignSummaryItem = {

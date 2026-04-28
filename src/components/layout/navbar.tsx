@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useClerk } from "@clerk/nextjs";
 import { PrimaryButton } from "../common/primary-button";
 import { useAuthStore } from "@/features/auth/store/auth-store";
@@ -21,7 +21,6 @@ const links = [
 export function Navbar() {
   const router = useRouter();
   const { signOut } = useClerk();
-  const pathname = usePathname();
   const token = useAuthStore((state) => state.token);
   const role = useAuthStore((state) => state.role);
   const clearAuth = useAuthStore((state) => state.clearAuth);
@@ -29,9 +28,7 @@ export function Navbar() {
   const dashboardPath = getDashboardPathByRole(role);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  useEffect(() => {
-    setIsMobileMenuOpen(false);
-  }, [pathname]);
+  const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
   const handleLogout = async () => {
     clearAuth();
@@ -122,6 +119,7 @@ export function Navbar() {
                 <Link
                   key={`mobile-${link.href}`}
                   href={link.href}
+                  onClick={closeMobileMenu}
                   className="rounded-md px-3 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-100 hover:text-emerald-700"
                 >
                   {link.label}
@@ -130,6 +128,7 @@ export function Navbar() {
               {canAccessOrphanageManage ? (
                 <Link
                   href="/orphanages/manage"
+                  onClick={closeMobileMenu}
                   className="rounded-md px-3 py-2 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-100 hover:text-emerald-700"
                 >
                   Kelola Panti
@@ -141,12 +140,14 @@ export function Navbar() {
                 <div className="flex flex-col gap-2">
                   <Link
                     href="/profile"
+                    onClick={closeMobileMenu}
                     className="rounded-md border border-slate-200 px-4 py-2 text-center text-sm font-medium text-slate-700 transition hover:bg-slate-100"
                   >
                     Profile
                   </Link>
                   <Link
                     href={dashboardPath}
+                    onClick={closeMobileMenu}
                     className="rounded-md border border-slate-200 px-4 py-2 text-center text-sm font-medium text-slate-700 transition hover:bg-slate-100"
                   >
                     Dashboard
@@ -163,12 +164,14 @@ export function Navbar() {
                 <div className="flex flex-col gap-2">
                   <Link
                     href="/login"
+                    onClick={closeMobileMenu}
                     className="rounded-md border border-slate-200 px-4 py-2 text-center text-sm font-medium text-slate-700 transition hover:bg-slate-100"
                   >
                     Masuk
                   </Link>
                   <Link
                     href="/register"
+                    onClick={closeMobileMenu}
                     className="rounded-md bg-emerald-600 px-4 py-2 text-center text-sm font-medium text-white transition hover:bg-emerald-700"
                   >
                     Gabung Sekarang

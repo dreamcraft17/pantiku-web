@@ -76,6 +76,36 @@ export function DonorProfile({ data }: Props) {
           </div>
         )}
       </section>
+
+      <section className="rounded-2xl border border-emerald-100 bg-white p-6 shadow-sm">
+        <h3 className="text-lg font-semibold text-slate-900">Update Dampak dari Campaign yang Kamu Dukung</h3>
+        {data.impactUpdates.length === 0 ? (
+          <div className="mt-4">
+            <EmptyState
+              title="Belum ada update dari campaign yang kamu dukung."
+              description="Update dampak akan muncul setelah panti membagikan perkembangan campaign yang kamu dukung."
+            />
+          </div>
+        ) : (
+          <div className="mt-4 space-y-3">
+            {data.impactUpdates.map((update) => (
+              <article key={`${update.campaignId}-${update.date}-${update.title}`} className="rounded-xl border border-slate-200 p-4">
+                <p className="text-xs font-semibold text-emerald-700">{update.campaignTitle}</p>
+                <p className="mt-1 font-semibold text-slate-900">{update.title}</p>
+                <p className="mt-2 text-sm text-slate-700">{update.description}</p>
+                <p className="mt-2 text-xs text-slate-500">
+                  {new Date(update.date).toLocaleDateString("id-ID", {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                  })}{" "}
+                  · {update.authorRole === "ADMIN" ? "Admin Pantiku" : "Pengelola Panti"}
+                </p>
+              </article>
+            ))}
+          </div>
+        )}
+      </section>
     </div>
   );
 }

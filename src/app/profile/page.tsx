@@ -15,6 +15,8 @@ import { OrphanageProfile } from "@/components/profile/orphanage/OrphanageProfil
 import { VolunteerProfile } from "@/components/profile/volunteer/VolunteerProfile";
 import { fetchDonorProfile, fetchOrphanageProfile, fetchVolunteerProfile } from "@/lib/profile/profile-service";
 import { DonorProfileData, OrphanageProfileData, VolunteerProfileData } from "@/lib/profile/profile-types";
+import { useContributionStore } from "@/features/contributions/store/contribution-store";
+import { useImpactUpdateStore } from "@/features/impact/store/impact-update-store";
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -25,6 +27,8 @@ export default function ProfilePage() {
   const setRole = useAuthStore((state) => state.setRole);
   const setUser = useAuthStore((state) => state.setUser);
   const logout = useAuthStore((state) => state.logout);
+  const contributions = useContributionStore((state) => state.contributions);
+  const impactUpdates = useImpactUpdateStore((state) => state.updates);
   const [resolving, setResolving] = useState(true);
   const [donorProfileData, setDonorProfileData] = useState<DonorProfileData | null>(null);
   const [orphanageProfileData, setOrphanageProfileData] = useState<OrphanageProfileData | null>(null);
@@ -61,7 +65,7 @@ export default function ProfilePage() {
       }
 
       if (nextRole === "DONOR") {
-        setDonorProfileData(await fetchDonorProfile(nextUser));
+        setDonorProfileData(await fetchDonorProfile(nextUser, contributions, impactUpdates));
       } else {
         setDonorProfileData(null);
       }
@@ -82,7 +86,13 @@ export default function ProfilePage() {
     };
 
     void resolveProfile();
-  }, [role, setRole, setUser, token, user]);
+  }, [contributions, impactUpdates, role, setRole, setUser, token, user]);
+
+  useEffect(() => {
+    if (!resolving && !token) {
+      router.replace("/login");
+    }
+  }, [resolving, router, token]);
 
   const resolvedRole = useMemo<AppRole>(() => {
     if (role) return role;
@@ -118,16 +128,7 @@ export default function ProfilePage() {
   }
 
   if (!token) {
-    return (
-      <ProfileLayout>
-        <EmptyState
-          title="Kamu belum masuk"
-          description="Masuk dulu ke Pantiku untuk melihat profil, riwayat kontribusi, dan aktivitas kamu."
-          actionLabel="Masuk Sekarang"
-          actionHref="/login"
-        />
-      </ProfileLayout>
-    );
+    return null;
   }
 
   return (

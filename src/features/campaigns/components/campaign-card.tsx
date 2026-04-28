@@ -3,14 +3,22 @@ import { Campaign } from "@/lib/mock/data";
 import { CampaignProgressBar } from "./campaign-progress-bar";
 import { formatRupiah } from "@/lib/utils/format";
 import { PrimaryButton } from "@/components/common/primary-button";
+import { VerificationStatus } from "@/features/orphanages/store/orphanage-store";
 
-export function CampaignCard({ campaign }: { campaign: Campaign }) {
+type CampaignCardData = Campaign & {
+  orphanageVerificationStatus?: VerificationStatus;
+};
+
+export function CampaignCard({ campaign }: { campaign: CampaignCardData }) {
   return (
     <div className="rounded-xl border border-slate-200 bg-white p-5 hover:border-emerald-300">
       <p className="text-xs font-semibold text-emerald-700">Campaign Produktif</p>
       <h3 className="mt-2 text-lg font-semibold text-slate-900">{campaign.title}</h3>
       <p className="mt-1 text-sm text-slate-600">{campaign.summary}</p>
       <p className="mt-2 text-sm text-slate-700">{campaign.orphanageName}</p>
+      {campaign.orphanageVerificationStatus === "VERIFIED" ? (
+        <p className="mt-1 inline-flex rounded-full border border-emerald-200 bg-emerald-100 px-2 py-0.5 text-xs font-semibold text-emerald-800">Panti Terverifikasi</p>
+      ) : null}
       <p className="text-sm text-slate-500">{campaign.location}</p>
       <div className="mt-4">
         <CampaignProgressBar collected={campaign.collected} goal={campaign.goal} />

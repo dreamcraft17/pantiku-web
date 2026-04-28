@@ -4,7 +4,7 @@ import { ReactNode, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getMe } from "@/lib/api/auth";
 import { AppRole } from "@/lib/auth/permissions";
-import { getRoleFromJwt } from "@/lib/auth/redirects";
+import { getDashboardPathByRole, getRoleFromJwt } from "@/lib/auth/redirects";
 import { useAuthStore } from "@/features/auth/store/auth-store";
 
 type Props = {
@@ -54,7 +54,7 @@ export function ProtectedDashboard({ allowedRoles, children }: Props) {
 
   useEffect(() => {
     if (!resolving && role && !hasAllowedRole) {
-      router.replace("/profile");
+      router.replace(getDashboardPathByRole(role));
     }
   }, [hasAllowedRole, resolving, role, router]);
 

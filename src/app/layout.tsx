@@ -6,6 +6,7 @@ import { Footer } from "@/components/layout/footer";
 import { AppQueryProvider } from "@/lib/providers/query-provider";
 import { ToastProvider } from "@/components/common/toast-provider";
 import { PageContainer } from "@/components/layout/PageContainer";
+import { OnboardingGate } from "@/components/onboarding/OnboardingGate";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://pantiku-web.vercel.app"),
@@ -47,6 +48,7 @@ export default function RootLayout({
           <AppQueryProvider>
             <ToastProvider>
               <Navbar />
+              <OnboardingGate />
               <main className="w-full flex-1">
                 <PageContainer size="wide" className="py-10">
                   {children}

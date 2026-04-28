@@ -14,6 +14,7 @@ export const donorProfileEmpty: Omit<DonorProfileData, "userName"> = {
   ],
   contributionHistory: [],
   recommendations: [],
+  impactUpdates: [],
 };
 
 export const orphanageProfileEmpty: Omit<OrphanageProfileData, "managerName" | "verificationStatus"> = {

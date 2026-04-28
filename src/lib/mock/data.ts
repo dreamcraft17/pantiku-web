@@ -32,6 +32,7 @@ export type Orphanage = {
   name: string;
   location: string;
   description: string;
+  verificationStatus?: "PENDING" | "VERIFIED" | "REJECTED";
 };
 
 export type ImpactSummary = {

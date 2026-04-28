@@ -1,28 +1,60 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useSyncExternalStore } from "react";
 import { SectionHeader } from "@/components/common/section-header";
 import { ProductCard } from "@/features/products/components/product-card";
 import { EmptyState } from "@/components/common/empty-state";
-import { ErrorState } from "@/components/common/error-state";
-import { useProducts } from "@/features/products/api/use-products";
-import { SkeletonState } from "@/components/common/skeleton-state";
 import { PrimaryButton } from "@/components/common/primary-button";
+import { LoadingState } from "@/components/common/loading-state";
 import { isDemoMode } from "@/lib/config/demo";
+import { useProductStore } from "@/features/marketplace/store/product-store";
+import { useOrphanageStore } from "@/features/orphanages/store/orphanage-store";
+import { Product } from "@/lib/mock/data";
+import { mockProducts } from "@/lib/mock/data";
+
+type ProductListItem = Product & {
+  orphanageVerificationStatus?: "PENDING" | "VERIFIED" | "REJECTED";
+};
 
 export default function MarketplacePage() {
-  const query = useProducts();
+  const products = useProductStore((state) => state.products);
+  const orphanages = useOrphanageStore((state) => state.orphanages);
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("Semua");
+  const hydrated = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
+  const mergedProducts = useMemo<ProductListItem[]>(() => {
+    const localProducts: ProductListItem[] = products.map((product) => {
+      const orphanage = orphanages.find((item) => item.id === product.orphanageId || item.managerUserId === product.createdBy);
+      return {
+        id: product.id,
+        name: product.name,
+        orphanageName: orphanage?.name ?? "Panti Mitra Pantiku",
+        category: "Kerajinan",
+        shortStory: product.description,
+        story: product.description,
+        orphanageProfile: orphanage?.description ?? "Profil panti belum tersedia.",
+        stock: product.stock,
+        images: ["https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=900&q=80"],
+        price: product.price,
+        orphanageVerificationStatus: orphanage?.verificationStatus,
+      };
+    });
+
+    if (isDemoMode) return [...localProducts, ...mockProducts];
+    return localProducts;
+  }, [orphanages, products]);
 
   const categories = useMemo(() => {
-    const items = query.data?.map((item) => item.category) ?? [];
+    const items = mergedProducts.map((item) => item.category);
     return ["Semua", ...Array.from(new Set(items))];
-  }, [query.data]);
+  }, [mergedProducts]);
 
   const filteredProducts = useMemo(() => {
-    const list = query.data ?? [];
-    return list.filter((product) => {
+    return mergedProducts.filter((product) => {
       const matchSearch =
         product.name.toLowerCase().includes(search.toLowerCase()) ||
         product.orphanageName.toLowerCase().includes(search.toLowerCase()) ||
@@ -30,7 +62,11 @@ export default function MarketplacePage() {
       const matchCategory = category === "Semua" || product.category === category;
       return matchSearch && matchCategory;
     });
-  }, [query.data, search, category]);
+  }, [category, mergedProducts, search]);
+
+  if (!hydrated) {
+    return <LoadingState message="Memuat marketplace..." />;
+  }
 
   return (
     <section>
@@ -63,15 +99,13 @@ export default function MarketplacePage() {
           ))}
         </select>
       </div>
-      {query.isLoading ? <SkeletonState count={8} /> : null}
-      {query.isError ? <ErrorState onRetry={() => query.refetch()} /> : null}
-      {query.data && filteredProducts.length === 0 ? (
+      {filteredProducts.length === 0 ? (
         <div className="space-y-4">
           <EmptyState
-            title="Produk karya panti segera hadir"
-            description="Marketplace Pantiku akan menampilkan produk dari panti mitra setelah proses kurasi dan verifikasi selesai."
+            title="Belum ada produk marketplace"
+            description="Produk karya panti akan muncul setelah panti terverifikasi menambahkan produk."
           />
-          <PrimaryButton href="/register" label="Saya Pengelola Panti" variant="outline" />
+          <PrimaryButton href="/dashboard/panti/create-product" label="Tambah Produk" variant="outline" />
         </div>
       ) : null}
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

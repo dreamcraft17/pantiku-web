@@ -20,6 +20,16 @@ export const donorProfileDemo: Omit<DonorProfileData, "userName"> = {
     { title: "Pelatihan Baking untuk Remaja Panti", href: "/campaigns", tag: "Skill Development" },
     { title: "Peralatan Sablon untuk Unit Usaha Panti", href: "/campaigns", tag: "Produktif" },
   ],
+  impactUpdates: [
+    {
+      campaignId: "c1",
+      campaignTitle: "Sewing Machine for Productive Skills",
+      title: "Mesin jahit mulai digunakan",
+      description: "Peserta panti sudah memproduksi batch pertama produk latihan.",
+      date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+      authorRole: "ORPHANAGE_MANAGER",
+    },
+  ],
 };
 
 export const orphanageProfileDemo: Omit<OrphanageProfileData, "managerName" | "verificationStatus"> = {
