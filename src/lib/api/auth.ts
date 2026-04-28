@@ -21,6 +21,14 @@ type ApiEnvelope<T> = {
   data?: T;
 };
 
+function resolveMockRoleFromEmail(email: string): AppUser["role"] {
+  const normalized = email.trim().toLowerCase();
+  if (normalized === "admin@test.com") return "ADMIN";
+  if (normalized === "panti@test.com") return "ORPHANAGE_MANAGER";
+  if (normalized === "volunteer@test.com") return "VOLUNTEER";
+  return "DONOR";
+}
+
 function unwrapAuthResponse(input: AuthResponse | ApiEnvelope<AuthResponse>): AuthResponse {
   const candidate = (input as ApiEnvelope<AuthResponse>)?.data ?? (input as AuthResponse);
   return {
@@ -32,13 +40,14 @@ function unwrapAuthResponse(input: AuthResponse | ApiEnvelope<AuthResponse>): Au
 }
 
 export async function login(email: string, password: string) {
+  const mockRole = resolveMockRoleFromEmail(email);
   const response = await safePost(
     "/api/v1/auth/login",
     { email, password },
     {
       accessToken: "mock-web-access-token",
       refreshToken: "mock-web-refresh-token",
-      user: { role: "DONOR" }
+      user: { role: mockRole, email }
     } satisfies AuthResponse
   );
   return unwrapAuthResponse(response as AuthResponse | ApiEnvelope<AuthResponse>);
@@ -58,13 +67,14 @@ export async function loginWithGoogle(idToken: string) {
 }
 
 export async function loginWithClerk(payload: { email: string; name: string; clerkId: string }) {
+  const mockRole = resolveMockRoleFromEmail(payload.email);
   const response = await safePost(
     "/api/v1/auth/clerk",
     payload,
     {
       accessToken: "mock-web-access-token",
       refreshToken: "mock-web-refresh-token",
-      user: { role: "DONOR" }
+      user: { role: mockRole, email: payload.email, fullName: payload.name }
     } satisfies AuthResponse
   );
   return unwrapAuthResponse(response as AuthResponse | ApiEnvelope<AuthResponse>);
@@ -87,6 +97,7 @@ export type RegisterPayload = {
 };
 
 export async function register(payload: RegisterPayload) {
+  const mappedRole: AppUser["role"] = payload.accountType;
   const response = await safePost(
     "/api/v1/auth/register",
     payload,
@@ -97,7 +108,7 @@ export async function register(payload: RegisterPayload) {
         payload.accountType === "ORPHANAGE_MANAGER"
           ? "Pendaftaran panti berhasil dikirim. Tim Pantiku akan melakukan verifikasi sebelum campaign dapat dibuat."
           : "Registrasi berhasil.",
-      user: { role: "DONOR" }
+      user: { role: mappedRole, email: payload.email, fullName: payload.fullName ?? payload.managerName }
     } satisfies AuthResponse
   );
   return unwrapAuthResponse(response as AuthResponse | ApiEnvelope<AuthResponse>);
