@@ -1,15 +1,16 @@
 import { DonorProfileData, OrphanageProfileData, VolunteerProfileData } from "./profile-types";
 
-export const donorProfileMock: Omit<DonorProfileData, "userName"> = {
-  welcomeMessage: "Kontribusimu membantu panti bergerak dari bantuan sesaat menuju kemandirian jangka panjang.",
+export const donorProfileDemo: Omit<DonorProfileData, "userName"> = {
+  isDemoData: true,
+  welcomeMessage: "Contoh data demo untuk menggambarkan perjalanan kontribusi donor.",
   ctas: [
     { label: "Jelajahi Campaign", href: "/campaigns" },
     { label: "Lihat Dampak Saya", href: "/impact" },
   ],
   stats: [
-    { label: "Total Kontribusi", value: "Rp 8.450.000", helper: "Akumulasi dukungan sejak bergabung" },
+    { label: "Total Kontribusi", value: "Rp 8.450.000", helper: "Akumulasi dukungan dalam mode demo" },
     { label: "Campaign Didukung", value: "12", helper: "Program produktif dan pendidikan" },
-    { label: "Update Dampak", value: "9", helper: "Laporan terbaru yang belum dibaca" },
+    { label: "Update Dampak", value: "9", helper: "Laporan terbaru contoh data" },
   ],
   contributionHistory: [
     { title: "Dukungan Mesin Jahit Produktif", date: "12 Apr 2026", amount: "Rp 500.000", status: "Berhasil" },
@@ -21,8 +22,9 @@ export const donorProfileMock: Omit<DonorProfileData, "userName"> = {
   ],
 };
 
-export const orphanageProfileMock: Omit<OrphanageProfileData, "managerName" | "verificationStatus"> = {
-  welcomeMessage: "Kelola profil panti, campaign, dan produk agar operasional panti semakin mandiri.",
+export const orphanageProfileDemo: Omit<OrphanageProfileData, "managerName" | "verificationStatus"> = {
+  isDemoData: true,
+  welcomeMessage: "Contoh data demo untuk menggambarkan performa campaign dan produk panti.",
   ctas: [
     { label: "Buat Campaign", href: "/campaigns" },
     { label: "Kelola Produk", href: "/marketplace" },
@@ -31,7 +33,7 @@ export const orphanageProfileMock: Omit<OrphanageProfileData, "managerName" | "v
   location: "Jakarta Timur",
   stats: [
     { label: "Campaign Aktif", value: "2", helper: "Sedang menerima dukungan" },
-    { label: "Total Dana Terkumpul", value: "Rp 19.600.000", helper: "Akumulasi dari campaign aktif" },
+    { label: "Total Dana Terkumpul", value: "Rp 19.600.000", helper: "Akumulasi campaign dalam mode demo" },
     { label: "Progress Campaign", value: "54%", helper: "Rata-rata pencapaian target" },
   ],
   campaignSummary: [
@@ -44,15 +46,16 @@ export const orphanageProfileMock: Omit<OrphanageProfileData, "managerName" | "v
   ],
 };
 
-export const volunteerProfileMock: Omit<VolunteerProfileData, "userName"> = {
-  welcomeMessage: "Pantau aktivitas relawanmu dan temukan program yang sesuai dengan minat kontribusimu.",
+export const volunteerProfileDemo: Omit<VolunteerProfileData, "userName"> = {
+  isDemoData: true,
+  welcomeMessage: "Contoh data demo untuk menggambarkan aktivitas relawan.",
   ctas: [
     { label: "Cari Program", href: "/orphanages" },
     { label: "Lihat Aktivitas Saya", href: "/impact" },
   ],
   focusArea: "Mentoring & Edukasi",
   stats: [
-    { label: "Program Diikuti", value: "6", helper: "Sejak bergabung di Pantiku" },
+    { label: "Program Diikuti", value: "6", helper: "Contoh aktivitas relawan" },
     { label: "Tugas Selesai", value: "14", helper: "Aktivitas mentoring dan pendampingan" },
     { label: "Aktivitas Mendatang", value: "2", helper: "Agenda relawan minggu ini" },
   ],

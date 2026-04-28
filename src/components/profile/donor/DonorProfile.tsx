@@ -11,7 +11,10 @@ export function DonorProfile({ data }: Props) {
   return (
     <div className="space-y-6">
       <section className="rounded-2xl border border-emerald-100 bg-white p-6 shadow-sm">
-        <h2 className="text-xl font-semibold text-slate-900">Halo, {data.userName}</h2>
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <h2 className="text-xl font-semibold text-slate-900">Halo, {data.userName}</h2>
+          {data.isDemoData ? <span className="inline-flex rounded-full border border-amber-200 bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-800">Demo data</span> : null}
+        </div>
         <p className="mt-2 text-sm text-slate-600">{data.welcomeMessage}</p>
         <div className="mt-4 flex flex-wrap gap-2">
           <Link href={data.ctas[0].href} className="rounded-lg bg-emerald-700 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-800">

@@ -23,6 +23,7 @@ export type DonorRecommendationItem = {
 };
 
 export type DonorProfileData = {
+  isDemoData: boolean;
   userName: string;
   welcomeMessage: string;
   ctas: [ProfileCta, ProfileCta];
@@ -43,6 +44,7 @@ export type OrphanageProductSummaryItem = {
 };
 
 export type OrphanageProfileData = {
+  isDemoData: boolean;
   managerName: string;
   verificationStatus: "PENDING" | "VERIFIED" | "REJECTED";
   welcomeMessage: string;
@@ -67,6 +69,7 @@ export type VolunteerOpportunityItem = {
 };
 
 export type VolunteerProfileData = {
+  isDemoData: boolean;
   userName: string;
   welcomeMessage: string;
   ctas: [ProfileCta, ProfileCta];
