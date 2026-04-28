@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ClerkProvider } from "@clerk/nextjs";
+import { ClerkProvider, Show, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs";
 import "./globals.css";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
@@ -46,6 +46,19 @@ export default function RootLayout({
         <ClerkProvider>
           <AppQueryProvider>
             <ToastProvider>
+              <header className="border-b border-slate-200 bg-white/70">
+                <PageContainer size="wide" className="flex items-center justify-end py-2">
+                  <Show when="signed-out">
+                    <div className="flex items-center gap-2">
+                      <SignInButton />
+                      <SignUpButton />
+                    </div>
+                  </Show>
+                  <Show when="signed-in">
+                    <UserButton />
+                  </Show>
+                </PageContainer>
+              </header>
               <Navbar />
               <main className="w-full flex-1">
                 <PageContainer size="wide" className="py-10">

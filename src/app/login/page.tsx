@@ -3,7 +3,7 @@
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { SignInButton, useUser } from "@clerk/nextjs";
+import { SignInButton, useClerk, useUser } from "@clerk/nextjs";
 import { useClerkLogin, useLogin } from "@/features/auth/api/use-auth";
 import { useToast } from "@/components/common/toast-provider";
 import { useAnalytics } from "@/lib/analytics/use-analytics";
@@ -12,6 +12,7 @@ import { getDashboardPathByRole } from "@/lib/auth/redirects";
 
 export default function LoginPage() {
   const router = useRouter();
+  const { loaded: isClerkLoaded } = useClerk();
   const { isSignedIn, isLoaded, user } = useUser();
   const { showToast } = useToast();
   const analytics = useAnalytics();
@@ -22,6 +23,7 @@ export default function LoginPage() {
   const [formError, setFormError] = useState<string | null>(null);
   const [clerkError, setClerkError] = useState<string | null>(null);
   const syncedClerkIdRef = useRef<string | null>(null);
+  const hasClerkKey = Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY);
 
   useEffect(() => {
     if (!isLoaded || !isSignedIn || !user) return;
@@ -118,17 +120,30 @@ export default function LoginPage() {
         </form>
         <div className="mt-4 space-y-2">
           <div className="text-center text-xs text-slate-500">atau</div>
-          <SignInButton mode="modal">
-            <Button
-              type="button"
-              variant="outline"
-              size="lg"
-              className="w-full rounded-xl border-slate-300"
-              disabled={clerkLoginMutation.isPending}
-            >
-              {clerkLoginMutation.isPending ? "Memproses Google Login..." : "Login dengan Google"}
+          {hasClerkKey ? (
+            <SignInButton mode="modal">
+              <Button
+                type="button"
+                variant="outline"
+                size="lg"
+                className="w-full rounded-xl border-slate-300"
+                disabled={clerkLoginMutation.isPending || !isClerkLoaded}
+              >
+                {clerkLoginMutation.isPending
+                  ? "Memproses Google Login..."
+                  : !isClerkLoaded
+                    ? "Menyiapkan Google Login..."
+                    : "Login dengan Google"}
+              </Button>
+            </SignInButton>
+          ) : (
+            <Button type="button" variant="outline" size="lg" className="w-full rounded-xl border-slate-300" disabled>
+              Login dengan Google belum aktif
             </Button>
-          </SignInButton>
+          )}
+          {!hasClerkKey ? (
+            <p className="text-center text-xs text-amber-700">Set `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` di env web.</p>
+          ) : null}
           {clerkError ? <p className="text-center text-sm text-red-600">{clerkError}</p> : null}
         </div>
 
