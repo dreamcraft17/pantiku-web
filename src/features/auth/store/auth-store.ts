@@ -13,6 +13,7 @@ type AuthState = {
   setRole: (role: AuthState["role"]) => void;
   setUser: (user: AppUser | null) => void;
   clearAuth: () => void;
+  logout: () => void;
 };
 
 export const useAuthStore = create<AuthState>()(
@@ -22,10 +23,17 @@ export const useAuthStore = create<AuthState>()(
       refreshToken: null,
       role: null,
       user: null,
-      setTokens: (token, refreshToken, role = null, user = null) => set({ token, refreshToken, role, user }),
+      setTokens: (token, refreshToken, role, user) =>
+        set((state) => ({
+          token,
+          refreshToken,
+          role: role ?? state.role,
+          user: user ?? state.user,
+        })),
       setRole: (role) => set({ role }),
       setUser: (user) => set({ user }),
       clearAuth: () => set({ token: null, refreshToken: null, role: null, user: null }),
+      logout: () => set({ token: null, refreshToken: null, role: null, user: null }),
     }),
     { name: "pantiku-web-auth" }
   )

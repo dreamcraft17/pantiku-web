@@ -16,6 +16,13 @@ function isApiEnvelope<T>(value: unknown): value is ApiEnvelope<T> {
   return "success" in value && "data" in value;
 }
 
+type TokenPair = {
+  accessToken: string;
+  refreshToken: string;
+};
+
+let refreshPromise: Promise<TokenPair | null> | null = null;
+
 apiClient.interceptors.request.use((config) => {
   const token = useAuthStore.getState().token;
   if (token) {
@@ -28,11 +35,58 @@ apiClient.interceptors.response.use(
   (response) => response,
   async (error) => {
     const status = error?.response?.status;
-    const config = error?.config;
+    const config = (error?.config ?? {}) as typeof error.config & {
+      _retry?: boolean;
+      url?: string;
+    };
 
     if (status === 401) {
-      useAuthStore.getState().clearAuth();
-      return Promise.reject(error);
+      const isRefreshCall = config.url?.includes("/api/v1/auth/refresh");
+      if (isRefreshCall || config._retry) {
+        useAuthStore.getState().logout();
+        if (typeof window !== "undefined") window.location.href = "/login";
+        return Promise.reject(error);
+      }
+
+      const authState = useAuthStore.getState();
+      if (!authState.refreshToken) {
+        authState.logout();
+        if (typeof window !== "undefined") window.location.href = "/login";
+        return Promise.reject(error);
+      }
+
+      if (!refreshPromise) {
+        refreshPromise = axios
+          .post<ApiEnvelope<TokenPair>>(
+            `${apiClient.defaults.baseURL}/api/v1/auth/refresh`,
+            { refreshToken: authState.refreshToken },
+            { timeout: apiClient.defaults.timeout }
+          )
+          .then((response) => {
+            const payload = response.data;
+            const tokens = isApiEnvelope<TokenPair>(payload) ? payload.data : (payload as unknown as TokenPair);
+            useAuthStore.getState().setTokens(tokens.accessToken, tokens.refreshToken);
+            return tokens;
+          })
+          .catch(() => {
+            useAuthStore.getState().logout();
+            if (typeof window !== "undefined") window.location.href = "/login";
+            return null;
+          })
+          .finally(() => {
+            refreshPromise = null;
+          });
+      }
+
+      const refreshedTokens = await refreshPromise;
+      if (!refreshedTokens) {
+        return Promise.reject(error);
+      }
+
+      config._retry = true;
+      config.headers = config.headers ?? {};
+      config.headers.Authorization = `Bearer ${refreshedTokens.accessToken}`;
+      return apiClient(config);
     }
 
     config.__retryCount = config.__retryCount ?? 0;

@@ -87,12 +87,23 @@ export function Navbar() {
         </div>
         <button
           type="button"
-          className="inline-flex items-center rounded-md border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 md:hidden"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-slate-300 text-slate-800 md:hidden"
           onClick={() => setIsMobileMenuOpen((prev) => !prev)}
           aria-expanded={isMobileMenuOpen}
           aria-controls="mobile-navbar-menu"
+          aria-label={isMobileMenuOpen ? "Tutup menu navigasi" : "Buka menu navigasi"}
         >
-          Menu
+          <span className="relative block h-4 w-5">
+            <span
+              className={`absolute left-0 top-0 h-0.5 w-5 bg-black transition-transform duration-200 ${isMobileMenuOpen ? "translate-y-[7px] rotate-45" : ""}`}
+            />
+            <span
+              className={`absolute left-0 top-[7px] h-0.5 w-5 bg-black transition-opacity duration-200 ${isMobileMenuOpen ? "opacity-0" : "opacity-100"}`}
+            />
+            <span
+              className={`absolute left-0 top-[14px] h-0.5 w-5 bg-black transition-transform duration-200 ${isMobileMenuOpen ? "-translate-y-[7px] -rotate-45" : ""}`}
+            />
+          </span>
         </button>
         {isMobileMenuOpen ? (
           <div

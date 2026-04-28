@@ -44,6 +44,19 @@ export async function login(email: string, password: string) {
   return unwrapAuthResponse(response as AuthResponse | ApiEnvelope<AuthResponse>);
 }
 
+export async function loginWithGoogle(idToken: string) {
+  const response = await safePost(
+    "/api/v1/auth/google",
+    { idToken },
+    {
+      accessToken: "mock-web-access-token",
+      refreshToken: "mock-web-refresh-token",
+      user: { role: "DONOR" }
+    } satisfies AuthResponse
+  );
+  return unwrapAuthResponse(response as AuthResponse | ApiEnvelope<AuthResponse>);
+}
+
 export type RegisterPayload = {
   accountType: "DONOR" | "ORPHANAGE_MANAGER" | "VOLUNTEER";
   fullName?: string;
